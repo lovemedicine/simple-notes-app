@@ -10,7 +10,13 @@ This is a simple app built with Next.js and Prisma that allows a user to view, c
 
 ## Getting Started
 
-First, create the database, load the schema and seed data, and create the prisma client:
+First install package dependencies:
+
+```
+npm install
+```
+
+Then create the database, load the schema and seed data, and create the prisma client:
 
 ```bash
 npx prisma db push
