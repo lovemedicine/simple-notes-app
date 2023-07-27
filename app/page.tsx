@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import AddNoteForm from './components/AddNoteForm'
+import NoteSearch from './components/NoteSearch'
 import NoteList, { Note } from './components/NoteList'
 
 export default function Home() {
   let [notes, setNotes] = useState<Note[]>([])
   let [query, setQuery] = useState<string>("")
+  let [isLoading, setIsLoading] = useState(true)
 
   async function fetchNotes() {
     let response = await fetch('api')
@@ -15,7 +17,9 @@ export default function Home() {
   }
 
   useEffect(() => {
-    fetchNotes().catch(console.error)
+    fetchNotes().catch(console.error).then(() => {
+      setIsLoading(false)
+    })
   }, [])
 
   async function addNote(text: string) {
@@ -40,21 +44,21 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="mb-5 text-3xl font-bold">Solace Notes</h1>
+      <h1 className="mb-5 text-3xl font-bold">Simple Notes App</h1>
 
       <h3 className="text-2xl mb-3">New Note</h3>
       <AddNoteForm addNote={addNote} />
 
       <h3 className="text-2xl mb-3">Saved Notes</h3>
-      <div className="mb-3">
-        Search: &nbsp;<input 
-          className="p-1 rounded-md border border-gray-400 text-black"
-          value={query}
-          onChange={event => setQuery(event.target.value)}
-          placeholder="Enter search text here..."
-          />
-      </div>
-      <NoteList notes={notes} query={query} deleteNote={deleteNote} />
+
+      { isLoading && <div className="italic font-bold">Loading...</div> }
+
+      { !isLoading &&
+        <>
+          <NoteSearch query={query} onChange={event => setQuery(event.target.value)} />
+          <NoteList notes={notes} query={query} deleteNote={deleteNote} />
+        </>
+      }
     </>
   )
 }
