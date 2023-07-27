@@ -1,4 +1,6 @@
-This is a simple app built with Next.js and Prisma that allows a user to view, create, delete, and search for notes.
+# Simple Notes App
+
+An app built with Next.js and Prisma that allows a user to view, create, delete, and search for notes.
 
 
 ## Requirements
